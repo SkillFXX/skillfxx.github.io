@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recherche d'Outils</title>
+  <title>How FX ? - FX Tools</title>
   <link rel="stylesheet" href="styles.css">
   <!-- Inclure Font Awesome pour les icônes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -357,13 +357,25 @@ body {
   color: white;
 }
 
+.tool-video-container {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.tool-video-container video {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
   </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-          <h1>FX Tools</h1>
-          <p>Les outils pour les monteurs vidéo</p>
+          <h1>How FX ?</h1>
+          <p>Les tutos pour les monteurs vidéo</p>
         </div>
       
         <div class="search-section">
@@ -371,7 +383,7 @@ body {
             <span class="search-icon">
               <i class="fas fa-search"></i>
             </span>
-            <input type="text" class="search-input" placeholder="Rechercher un outil par nom ou catégorie..." id="searchInput">
+            <input type="text" class="search-input" placeholder="Rechercher un tuto par nom ou catégorie..." id="searchInput">
           </div>
         </div>
       
@@ -390,8 +402,8 @@ body {
       <footer class="footer">
         <div class="footer-container">
           <div class="footer-section">
-            <h3>FX Tools</h3>
-            <p>Les meilleurs outils pour les monteurs vidéo.</p>
+            <h3>How FX ?</h3>
+            <p>Les meilleurs tutos pour les monteurs vidéo.</p>
           </div>
           
           <div class="footer-section">
@@ -418,132 +430,79 @@ body {
 
   <script>
     const tools = [
-    {
-    icon: "fa-school",
-    title: "Tutos montage / miniature",
-    description: "Liste de vidéos tutorielles qui expliquent le montage et la fabrication de miniatures en termes simples.",
-    link: "tutos/howfx.html"
-  },
-  {
-    icon: "fa-calculator",
-    title: "Compteur de Presets",
-    description: "Calculez rapidement le nombre de presets dans vos fichiers prfpset ou xml.",
-    link: "tools/prfpset-counter.html"
-  },
-  {
-    icon: "fa-download",
-    title: "Télécharger vidéo",
-    description: "Téléchargez des vidéos ou des fichiers audio à partir de plateformes vidéo telles que YouTube, TikTok et bien d'autres.",
-    link: "https://cobalt.tools/"
-  },
-  {
-    icon: "fa-image",
-    title: "Éditeur photo en ligne et gratuit",
-    description: "Une alternative en ligne entièrement gratuite à Photoshop.",
-    link: "https://www.photopea.com/"
-  },
-  {
-    icon: "fa-film",
-    title: "Vidéos d'anime",
-    description: "Base de données complète d'extraits d'anime.",
-    link: "https://animeclips.online/"
-  },
-  {
-    icon: "fa-camera",
-    title: "Récupérer titre et miniature d'une vidéo",
-    description: "Récupérer le titre et la miniature d'une vidéo YouTube sous forme de capture d'écran, mais en haute qualité.",
-    link: "https://broll.gabin.app/"
-  },
-  {
-    icon: "fa-eye",
-    title: "Visualiser votre miniature",
-    description: "Visualisez votre miniature comme si elle se trouvait sur votre page YouTube.",
-    link: "https://chromewebstore.google.com/detail/prevyou-%E2%80%94-youtube-thumbna/lnkbdmjocdiomabiedmflmgikjlifham?hl=fr"
-  },
-  {
-    icon: "fa-person",
-    title: "Création de Wojak",
-    description: "Créez votre propre personnage Wojak.",
-    link: "https://wojak-studio.com/"
-  },
-  {
-    icon: "fa-images",
-    title: "Textures",
-    description: "Plein de textures de haute qualité.",
-    link: "https://resourceboy.com/textures/"
-  },
-  {
-    icon: "fa-microphone-slash",
-    title: "Séparer voix et musique",
-    description: "Séparer la voix et la musique d'un fichier audio.",
-    link: "https://vocalremover.org/fr/"
-  },
-  {
-    icon: "fa-video",
-    title: "Vidéos illustrations",
-    description: "Liste complète de vidéos libres de droits pour l'illustration.",
-    link: "https://www.pexels.com/fr-fr/"
-  },
-  {
-    icon: "fa-scissors",
-    title: "Retirer le fond d'une image",
-    description: "Supprimer et découper automatiquement l'arrière-plan d'une image.",
-    link: "https://www.remove.bg/fr"
-  },
-  {
-    icon: "fa-folder-tree",
-    title: "Créer votre portfolio",
-    description: "Créez facilement un portfolio pour présenter votre travail.",
-    link: "https://www.bento.me/"
-  },
-  {
-    icon: "fa-folder-tree",
-    title: "Ajouter de la lumière",
-    description: "Modifiez et ajoutez de la lumière à vos photos.",
-    link: "https://clipdrop.co/relight"
-  },
-  {
-    icon: "fa-microphone",
-    title: "Améliorer le son de votre micro",
-    description: "Améliorez la qualité audio de votre microphone.",
-    link: "https://podcast.adobe.com/enhance"
-  },
-  {
-    icon: "fa-font",
-    title: "Retrouver la police d'écriture",
-    description: "Trouvez le nom d'une police d'écriture à l'aide d'une simple photo.",
-    link: "https://www.myfonts.com/fr/pages/whatthefont"
-  },
-  {
-    icon: "fa-comment",
-    title: "Générer des commentaires YouTube",
-    description: "Générer de faux commentaires YouTube et les exporter en haute qualité.",
-    link: "https://tubepilot.ai/tools/fake-youtube-comment-generator/"
-  },
-  {
-    icon: "fa-paste",
-    title: "Trouver des templates .psd",
-    description: "Trouver et télécharger des modèles .psd pour Photoshop.",
-    link: "https://fr.freepik.com/"
-  },
-  {
-    icon: "fa-paste",
-    title: "Trouver des templates .psd",
-    description: "Trouver et télécharger des modèles .psd pour Photoshop.",
-    link: "https://fr.freepik.com/"
-  },
-  {
-    icon: "fa-icons",
-    title: "Icônes",
-    description: "Bibliothèque d'icônes complète.",
-    link: "https://www.flaticon.com/free-icons/library"
-  },
-  {
-    icon: "fa-file",
-    title: "Transferer fichiers volumineux",
-    description: "Transférer et envoyer des fichiers très volumineux",
-    link: "https://www.swisstransfer.com/"
-  }
+      {
+      title: "Vignette",
+      description: "Créer un effet de vignette dans Photoshop.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/6POPPuFZgy0?si=N5k-I-m7WwmQ1uQ-", // URL de la vidéo
+      },
+      {
+      title: "Sous-titres",
+      description: "Créer des animations pour les sous-titres dans Premiere Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/cBjfKw8-xh4?si=VfVA7pumOykLQd1g", // URL de la vidéo
+      },
+      {
+      title: "Derush",
+      description: "Faire un meilleur derush sur Premiere Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/moKyX7glqnk?si=2BOcZJdS-InxXoh4", // URL de la vidéo
+      },
+      {
+      title: "Miniature",
+      description: "Faire une miniature de A à Z.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/I4oG7YmgCO0?si=ownxKYlqAKuoVCMU", // URL de la vidéo
+      },
+      {
+      title: "Premiere Pro",
+      description: "Apprendre les bases de Premiere Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/Ah7HmtqOQEk?si=qVe6vozKkMmE_Ar5", // URL de la vidéo
+      },
+      {
+      title: "Presets",
+      description: "Comment enregistrer des presets sur Premiere Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/-t-Egtbx6BA?si=5bi5clbDhmKOqLcb", // URL de la vidéo
+      },
+      {
+      title: "Zooms",
+      description: "Apprendre à faire des bons zooms sur Premire Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/mM1doYXtaBs?si=FUkA_jvXAhToVBE1", // URL de la vidéo
+      },
+      {
+      title: "Animations",
+      description: "Apprendre à faire des animations clean sur Premire Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/6LV9znNGv2Q?si=bj88A27A-p_kzOaK", // URL de la vidéo
+      },
+      {
+      title: "Sous-titres autos",
+      description: "Utiliser les sous-titres autos de Premiere Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/MyoiqSw1DdE?si=hDy00aTslP-tXnAu", // URL de la vidéo
+      },
+      {
+      title: "Raccourcis clavier",
+      description: "Utiliser des bons raccourci clavier sur Premiere Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/sniV2b6bn08?si=mKAte31RGgf7cl_P", // URL de la vidéo
+      },
+      {
+      title: "Tracking",
+      description: "Utiliser le tracking sur Premiere Pro.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/pnynUoWmX3A?si=qvy6aEou31hzxojl", // URL de la vidéo
+      },
+      {
+      title: "Tracking",
+      description: "Utiliser le tracking sur After Effects.",
+      icon: "fa-edit",
+      videoUrl: "https://www.youtube.com/embed/7p1iM8g-JHU?si=dgmFIqg5ARR-KAk9", // URL de la vidéo
+      },
+
 ];
 
 function generateTools() {
@@ -560,31 +519,15 @@ function generateTools() {
       <i class="fa-solid ${tool.icon}"></i>
     </div>
     <h3 class="tool-title">${tool.title}</h3>
-    ${tool.badge ? `<span class="tool-badge ${tool.badge.toLowerCase()}">
-                      <i class="fas ${getBadgeIcon(tool.badge)}"></i> ${tool.badge}
-                    </span>` : ''}
+
   </div>
   <div class="tool-card-body">
     <p class="tool-description">${tool.description}</p>
-    <a href="${tool.link}" class="tool-link">Utiliser l'outil</a>
+    <div class="tool-video-container">
+      <iframe width="100%" height="100%" src="${tool.videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
   </div>
 `;
-
-function getBadgeIcon(badge) {
-  switch (badge.toLowerCase()) {
-    case 'new':
-      return 'fa-star'; // Icône "new"
-    case 'gratuit':
-      return 'fa-gift'; // Icône "gratuit"
-    case 'payant':
-      return 'fa-dollar-sign'; // Icône "payant"
-    default:
-      return ''; // Pas d'icône si non défini
-  }
-}
-
-
-
     toolsGrid.appendChild(toolCard);
   });
 }
