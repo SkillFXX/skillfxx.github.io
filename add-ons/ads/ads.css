@@ -1,0 +1,173 @@
+  .side-ad {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 280px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    animation: shimmer 8s infinite;
+  }
+  
+  /* Effet de scintillement sur toute la carte */
+  @keyframes shimmer {
+    0% {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+      box-shadow: 0 8px 30px rgba(74, 108, 247, 0.25);
+    }
+    100% {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  /* Effet de scintillement sur le bouton */
+  .shine-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shine-effect::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(30deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(30deg);
+    }
+  }
+  
+  .ad-label {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--placeholder-color);
+    font-size: 12px;
+    padding: 4px 10px;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+  .ad-content {
+    padding: 15px;
+  }
+  
+  .ad-header h4 {
+    color: var(--text-color);
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .ad-body p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+  
+  .ad-img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover;
+  }
+  
+  .ad-btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .ad-btn:hover {
+    background-color: var(--primary-hover);
+  }
+  
+  .ad-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    /* Amélioration pour rendre la zone de clic plus grande */
+    padding: 5px;
+    z-index: 101;
+  }
+  
+  .ad-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000;
+    transform: scale(1.1);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 1400px) {
+    .side-ad {
+      width: 250px;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .side-ad {
+      display: none; /* Masquer sur les petits écrans */
+    }
+  }
+  
+  /* Animation d'entrée */
+  @keyframes slideIn {
+    from {
+      transform: translate(100%, -50%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(0, -50%);
+      opacity: 1;
+    }
+  }
+  
+  .side-ad {
+    animation: slideIn 0.5s forwards;
+  }
+  
+  /* Classe pour la fermeture */
+  .side-ad.closing {
+    transform: translate(100%, -50%);
+    opacity: 0;
+  }

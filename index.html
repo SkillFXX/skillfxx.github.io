@@ -13,363 +13,138 @@
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recherche d'Outils</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>FX Tools</title>
   <!-- Inclure Font Awesome pour les icônes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles/index.css">
   <style>
-    /* Variables de couleurs */
-:root {
-  --primary-color: #4a6cf7;
-  --primary-hover: #3a5ce5;
-  --background-color: #f8f9fa;
-  --card-background: #ffffff;
-  --text-color: #333333;
-  --border-color: #e0e0e0;
-  --success-color: #28a745;
-  --placeholder-color: #999999;
-}
-
-/* Styles globaux */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  min-height: 100vh;
-  padding: 20px;
-}
-
-/* Conteneur principal */
-.container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-/* En-tête */
-.header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.header h1 {
-  color: var(--primary-color);
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.header p {
-  color: #666;
-  font-size: 18px;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-/* Section de recherche */
-.search-section {
-  background-color: var(--card-background);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  padding: 30px;
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.search-wrapper {
-  position: relative;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.search-input {
-  width: 100%;
-  padding: 16px 24px;
-  padding-left: 50px;
-  font-size: 16px;
-  border: 2px solid var(--border-color);
-  border-radius: 50px;
-  background-color: #fff;
-  transition: all 0.3s ease;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
-}
-
-.search-input::placeholder {
-  color: var(--placeholder-color);
-}
-
-.search-icon {
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--placeholder-color);
-}
-
-/* Section des résultats */
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.tool-card {
-  background-color: var(--card-background);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-}
-
-.tool-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.tool-card-header {
-  padding: 16px;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-}
-
-.tool-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background-color: rgba(74, 108, 247, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 14px;
-}
-
-.tool-icon svg {
-  color: var(--primary-color);
-}
-
-.tool-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-.tool-card-body {
-  padding: 16px;
-}
-
-.tool-description {
-  color: #666;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-
-.tool-link {
-  display: inline-block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.tool-link:hover {
-  background-color: var(--primary-hover);
-}
-
-/* Pas de résultats */
-.no-results {
-  text-align: center;
-  padding: 40px;
-  background-color: var(--card-background);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.no-results h3 {
-  color: var(--primary-color);
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.no-results p {
-  color: #666;
-}
-
-/* Animation de chargement */
-@keyframes pulse {
-  0% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 0.6;
-  }
-}
-
-.loading .tool-card {
-  animation: pulse 1.5s infinite;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .header h1 {
-    font-size: 28px;
-  }
-  
-  .search-section {
-    padding: 20px;
-  }
-  
-  .tools-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .tools-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Pied de page */
-.footer {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 40px 20px;
-  margin-top: 40px;
-}
-
-.footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.footer-section {
-  flex: 1;
-  min-width: 200px;
-  margin-bottom: 20px;
-}
-
-.footer-section h3 {
-  font-size: 18px;
-  margin-bottom: 12px;
-  color: #fff;
-}
-
-.footer-section p {
-  font-size: 14px;
-  color: #ddd;
-  line-height: 1.6;
-}
-
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-section ul li {
-  margin-bottom: 8px;
-}
-
-.footer-section ul li a {
-  text-decoration: none;
-  color: #ddd;
-  font-size: 14px;
-  transition: color 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-  color: var(--primary-hover);
-}
-
-.social-icons {
-  display: flex;
-  gap: 10px;
-}
-
-.social-icons a {
-  color: white;
-  font-size: 18px;
-  transition: color 0.3s ease;
-}
-
-.social-icons a:hover {
-  color: var(--primary-hover);
-}
-
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.footer-bottom p {
-  font-size: 14px;
-  color: #ddd;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .social-icons {
-    justify-content: center;
-  }
-}
-
-.tool-badge {
-  background-color: #ffcc00; /* Par défaut (jaune) */
-  color: #333;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 5px 10px;
-  border-radius: 5px;
-  text-transform: uppercase;
-  margin-left: auto;
-}
-
-.tool-badge.new {
-  background-color: #4a6cf7; /* Bleu */
-  color: white;
-}
-
-.tool-badge.gratuit {
-  background-color: #28a745; /* Vert */
-  color: white;
-}
-
-.tool-badge.payant {
-  background-color: #dc3545; /* Rouge */
-  color: white;
-}
-
+    .side-ad {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 280px;
+      background-color: var(--card-background);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .ad-label {
+      background-color: rgba(0, 0, 0, 0.05);
+      color: var(--placeholder-color);
+      font-size: 12px;
+      padding: 4px 10px;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .ad-content {
+      padding: 15px;
+    }
+    
+    .ad-header h4 {
+      color: var(--text-color);
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    .ad-body p {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+    
+    .ad-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      object-fit: cover;
+    }
+    
+    .ad-btn {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .ad-btn:hover {
+      background-color: var(--primary-hover);
+    }
+    
+    .ad-close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      color: var(--placeholder-color);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+    
+    .ad-close-btn:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      color: var(--text-color);
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1400px) {
+      .side-ad {
+        width: 250px;
+      }
+    }
+    
+    @media (max-width: 1200px) {
+      .side-ad {
+        display: none; /* Masquer sur les petits écrans */
+      }
+    }
+    
+    /* Animation d'entrée */
+    @keyframes slideIn {
+      from {
+        transform: translate(100%, -50%);
+        opacity: 0;
+      }
+      to {
+        transform: translate(0, -50%);
+        opacity: 1;
+      }
+    }
+    
+    .side-ad {
+      animation: slideIn 0.5s forwards;
+    }
+    
+    /* Classe pour la fermeture */
+    .side-ad.closing {
+      transform: translate(100%, -50%);
+      opacity: 0;
+    }
   </style>
 </head>
 <body>
+  
     <div class="container">
         <div class="header">
           <h1>FX Tools</h1>
@@ -396,7 +171,6 @@ body {
         </div>
       </div>
 
-
       <footer class="footer">
         <div class="footer-container">
           <div class="footer-section">
@@ -408,8 +182,6 @@ body {
             <h3>Sources</h3>
             <p>Projet réalisé grâce aux ressources mises à disposition par les membres de la <a href="https://discord.com/servers/raphcommunity-1130351016798326855">RaphCommunity</a>.</p>
           </div>
-      
-         
       
           <div class="footer-section">
             <h3>Soutenir</h3>
@@ -423,14 +195,12 @@ body {
           <p>&copy; 2025 FX Tools. Made by SkillFX.</p>
         </div>
       </footer>
-      
-
 
   <script>
     const tools = [
   {
     icon: "fa-file-export",
-    title: ".xml en .prfpset",
+    title: "Convertisseur XML en PRFPSET",
     description: "Convertissez vos fichiers .xml en presets .prfpset.",
     link: "tools/xml-prfpset.html",
     badge: "new"
@@ -439,7 +209,7 @@ body {
     icon: "fa-school",
     title: "Tutos montage / miniature",
     description: "Liste de vidéos tutorielles qui expliquent le montage et la fabrication de miniatures en termes simples.",
-    link: "tutos/howfx.html"
+    link: "tools/howfx.html"
   },
   {
     icon: "fa-calculator",
@@ -654,6 +424,13 @@ document.addEventListener("DOMContentLoaded", generateTools);
         });
     });
 </script>
+<script>
+(function() {
+      document.head.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="add-ons/ads/ads.css">'); // Injecte le CSS
+      fetch('add-ons/ads/ads.html').then(response => response.text()).then(html => document.body.insertAdjacentHTML('beforeend', html)); // Injecte le HTML
+  })();
+</script>
+<script src="add-ons/ads/ads.js"></script>
 
 </body>
 </html>
