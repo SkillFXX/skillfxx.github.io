@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Sunburst</title>
+    <link rel="stylesheet" href="../styles/tools.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J4TPDNF0PS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-J4TPDNF0PS');
+    </script>
+    <style>
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            
+        }
+        canvas {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-image: url("https://i.ibb.co/wr0ywS73/png.jpg");
+            background-repeat: repeat;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-container">
+          <a href="../index.html" class="logo">
+            <i class="fas fa-tools"></i>
+            FX Tools
+          </a>
+          <div class="nav-links">
+            <a href="../index.html" class="back-to-home">
+              <i class="fas fa-arrow-left"></i>
+              Retour à l'accueil
+            </a>
+          </div>
+        </div>
+      </div>
+    
+    <div class="container">
+        <h1>Générateur de Sunburst</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="rayCount">Nombre de rayons:</label>
+                <input type="range" id="rayCount" min="5" max="100" value="15" oninput="updateSunburst()">
+                <span id="rayCountValue">24</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="rayLength">Longueur des rayons:</label>
+                <input type="range" id="rayLength" min="50" max="400" value="200" oninput="updateSunburst()">
+                <span id="rayLengthValue">150</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="rayStartWidth">Largeur initiale des rayons:</label>
+                <input type="range" id="rayStartWidth" min="0" max="20" value="0" oninput="updateSunburst()">
+                <span id="rayStartWidthValue">5</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="rayEndWidth">Largeur finale des rayons:</label>
+                <input type="range" id="rayEndWidth" min="5" max="100" value="50" oninput="updateSunburst()">
+                <span id="rayEndWidthValue">30</span>
+            </div>
+            
+            <div class="control-group">
+                <label for="rayColor">Couleur des rayons:</label>
+                <input type="color" id="rayColor" value="#FFD700" oninput="updateSunburst()">
+            </div>
+            
+            <div class="control-group">
+                <label for="backgroundColor">Couleur d'arrière-plan:</label>
+                <input type="color" id="backgroundColor" value="#FFFFFF" oninput="updateSunburst()">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="transparentBg" checked oninput="updateSunburst()">
+                    <label for="transparentBg">Fond transparent (PNG)</label>
+                </div>
+            </div>
+
+            <div class="control-group quality-container">
+                <label for="exportQuality">Qualité d'export:</label>
+                <input type="range" id="exportQuality" min="0.5" max="1" step="0.1" value="1">
+                <span id="exportQualityValue">Maximale (1.0)</span>
+            </div>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="sunburstCanvas" width="600" height="600"></canvas>
+        </div>
+        
+        <div class="button-group">
+            <button onclick="downloadImage()">Télécharger PNG</button>
+        </div>
+    </div>
+
+    <script>
+        // Références aux éléments
+        const canvas = document.getElementById('sunburstCanvas');
+        const ctx = canvas.getContext('2d');
+    
+        // Références aux contrôles et affichages des valeurs
+        const centerSizeInput = document.getElementById('centerSize');
+        const rayCountInput = document.getElementById('rayCount');
+        const rayCountValue = document.getElementById('rayCountValue');
+        const rayLengthInput = document.getElementById('rayLength');
+        const rayLengthValue = document.getElementById('rayLengthValue');
+        const rayStartWidthInput = document.getElementById('rayStartWidth');
+        const rayStartWidthValue = document.getElementById('rayStartWidthValue');
+        const rayEndWidthInput = document.getElementById('rayEndWidth');
+        const rayEndWidthValue = document.getElementById('rayEndWidthValue');
+        const rayColorInput = document.getElementById('rayColor');
+        const backgroundColorInput = document.getElementById('backgroundColor');
+        const transparentBgInput = document.getElementById('transparentBg');
+        const exportQualityInput = document.getElementById('exportQuality');
+        const exportQualityValue = document.getElementById('exportQualityValue');
+        
+        // Mise à jour de l'affichage de la qualité
+        exportQualityInput.addEventListener('input', function() {
+            const quality = parseFloat(this.value);
+            let qualityText = "";
+            
+            if (quality >= 1) {
+                qualityText = "Maximale (1.0)";
+            } else if (quality >= 0.9) {
+                qualityText = "Très haute (0.9)";
+            } else if (quality >= 0.8) {
+                qualityText = "Haute (0.8)";
+            } else if (quality >= 0.7) {
+                qualityText = "Moyenne (0.7)";
+            } else if (quality >= 0.6) {
+                qualityText = "Basse (0.6)";
+            } else {
+                qualityText = "Minimale (0.5)";
+            }
+            
+            exportQualityValue.textContent = qualityText;
+        });
+        
+        // Fonction pour mettre à jour les affichages des valeurs
+        function updateValueDisplays() {
+            rayCountValue.textContent = rayCountInput.value;
+            rayLengthValue.textContent = rayLengthInput.value;
+            rayStartWidthValue.textContent = rayStartWidthInput.value;
+            rayEndWidthValue.textContent = rayEndWidthInput.value;
+        }
+        
+        // Fonction pour redimensionner le canvas
+        function resizeCanvas() {
+            const size = 440;
+            canvas.width = size;
+            canvas.height = size;
+            updateSunburst();
+        }
+        
+        // Fonction pour dessiner le sunburst
+        function drawSunburst() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const centerSize = 0;
+            const rayCount = parseInt(rayCountInput.value);
+            const rayLength = parseInt(rayLengthInput.value);
+            const rayStartWidth = parseInt(rayStartWidthInput.value);
+            const rayEndWidth = parseInt(rayEndWidthInput.value);
+            const rayColor = rayColorInput.value;
+            const backgroundColor = backgroundColorInput.value;
+            const isTransparent = transparentBgInput.checked;
+            
+            // Effacer le canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dessiner l'arrière-plan si non transparent
+            if (!isTransparent) {
+                ctx.fillStyle = backgroundColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // Augmenter la qualité du rendu
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+            
+            // Dessiner les rayons
+            const angleStep = (Math.PI * 2) / rayCount;
+            ctx.fillStyle = rayColor;
+            
+            for (let i = 0; i < rayCount; i++) {
+                const angle = i * angleStep;
+                
+                // Calculer les points du triangle (rayon)
+                const startX = centerX + Math.cos(angle) * centerSize;
+                const startY = centerY + Math.sin(angle) * centerSize;
+                
+                const endX = centerX + Math.cos(angle) * (centerSize + rayLength);
+                const endY = centerY + Math.sin(angle) * (centerSize + rayLength);
+                
+                // Calculer les points de largeur aux extrémités
+                const perpAngleStart = angle + Math.PI / 2;
+                const perpAngleEnd = angle + Math.PI / 2;
+                
+                const startWidth = rayStartWidth / 2;
+                const endWidth = rayEndWidth / 2;
+                
+                const p1X = startX + Math.cos(perpAngleStart) * startWidth;
+                const p1Y = startY + Math.sin(perpAngleStart) * startWidth;
+                
+                const p2X = startX - Math.cos(perpAngleStart) * startWidth;
+                const p2Y = startY - Math.sin(perpAngleStart) * startWidth;
+                
+                const p3X = endX + Math.cos(perpAngleEnd) * endWidth;
+                const p3Y = endY + Math.sin(perpAngleEnd) * endWidth;
+                
+                const p4X = endX - Math.cos(perpAngleEnd) * endWidth;
+                const p4Y = endY - Math.sin(perpAngleEnd) * endWidth;
+                
+                // Dessiner le quadrilatère (rayon)
+                ctx.beginPath();
+                ctx.moveTo(p1X, p1Y);
+                ctx.lineTo(p3X, p3Y);
+                ctx.lineTo(p4X, p4Y);
+                ctx.lineTo(p2X, p2Y);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+        }
+        
+        // Fonction pour mettre à jour le sunburst
+        function updateSunburst() {
+            updateValueDisplays();
+            drawSunburst();
+        }
+        
+        // Fonction pour télécharger l'image avec résolution de 2000x2000
+        function downloadImage() {
+            // Créer un canvas temporaire à haute résolution pour l'export
+            const exportCanvas = document.createElement('canvas');
+            const targetSize = 2000;  // Toujours en 2000x2000
+            const quality = parseFloat(exportQualityInput.value);
+            
+            // Définir les nouvelles dimensions en maintenant les proportions
+            const scaleFactor = Math.min(targetSize / canvas.width, targetSize / canvas.height);
+            exportCanvas.width = targetSize;
+            exportCanvas.height = targetSize;
+            
+            const exportCtx = exportCanvas.getContext('2d');
+            exportCtx.imageSmoothingEnabled = true;
+            exportCtx.imageSmoothingQuality = "high";
+            
+            // Redessiner sur le canvas d'export avec un redimensionnement proportionnel
+            const centerX = exportCanvas.width / 2;
+            const centerY = exportCanvas.height / 2;
+            const rayCount = parseInt(rayCountInput.value);
+            const rayLength = parseInt(rayLengthInput.value);
+            const rayStartWidth = parseInt(rayStartWidthInput.value);
+            const rayEndWidth = parseInt(rayEndWidthInput.value);
+            const rayColor = rayColorInput.value;
+            const backgroundColor = backgroundColorInput.value;
+            const isTransparent = transparentBgInput.checked;
+            
+            // Effacer et remplir l'arrière-plan si nécessaire
+            exportCtx.clearRect(0, 0, exportCanvas.width, exportCanvas.height);
+            if (!isTransparent) {
+                exportCtx.fillStyle = backgroundColor;
+                exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+            }
+            
+            // Dessiner les rayons sur le canvas d'export avec les bonnes proportions
+            const angleStep = (Math.PI * 2) / rayCount;
+            exportCtx.fillStyle = rayColor;
+            
+            for (let i = 0; i < rayCount; i++) {
+                const angle = i * angleStep;
+                
+                // Calculer les points du rayon redimensionné
+                const startX = centerX + Math.cos(angle) * 0;
+                const startY = centerY + Math.sin(angle) * 0;
+                
+                const endX = centerX + Math.cos(angle) * (0 + rayLength * scaleFactor);
+                const endY = centerY + Math.sin(angle) * (0 + rayLength * scaleFactor);
+                
+                const perpAngleStart = angle + Math.PI / 2;
+                const perpAngleEnd = angle + Math.PI / 2;
+                
+                const startWidth = rayStartWidth / 2 * scaleFactor;
+                const endWidth = rayEndWidth / 2 * scaleFactor;
+                
+                const p1X = startX + Math.cos(perpAngleStart) * startWidth;
+                const p1Y = startY + Math.sin(perpAngleStart) * startWidth;
+                
+                const p2X = startX - Math.cos(perpAngleStart) * startWidth;
+                const p2Y = startY - Math.sin(perpAngleStart) * startWidth;
+                
+                const p3X = endX + Math.cos(perpAngleEnd) * endWidth;
+                const p3Y = endY + Math.sin(perpAngleEnd) * endWidth;
+                
+                const p4X = endX - Math.cos(perpAngleEnd) * endWidth;
+                const p4Y = endY - Math.sin(perpAngleEnd) * endWidth;
+                
+                // Dessiner le rayon
+                exportCtx.beginPath();
+                exportCtx.moveTo(p1X, p1Y);
+                exportCtx.lineTo(p3X, p3Y);
+                exportCtx.lineTo(p4X, p4Y);
+                exportCtx.lineTo(p2X, p2Y);
+                exportCtx.closePath();
+                exportCtx.fill();
+            }
+            
+
+            
+            // Télécharger l'image
+            const dataURL = exportCanvas.toDataURL('image/png', quality);
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'sunburst.png';
+            link.click();
+        }
+        
+        // Initialisation
+        updateValueDisplays();
+        drawSunburst();
+        resizeCanvas();
+    </script>
+
+    <script>
+        (function() {
+            document.head.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="../add-ons/ads/ads.css">'); // Injecte le CSS
+            fetch('../add-ons/ads/ads.html').then(response => response.text()).then(html => document.body.insertAdjacentHTML('beforeend', html)); // Injecte le HTML
+        })();
+    </script>
+    <script src="../add-ons/ads/ads.js"></script>
+        
+    
+</body>
+</html>

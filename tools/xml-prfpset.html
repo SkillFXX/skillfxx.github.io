@@ -60,5 +60,12 @@
       document.body.removeChild(link);
     }
   </script>
+  <script>
+    (function() {
+        document.head.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="../add-ons/ads/ads.css">'); // Injecte le CSS
+        fetch('../add-ons/ads/ads.html').then(response => response.text()).then(html => document.body.insertAdjacentHTML('beforeend', html)); // Injecte le HTML
+    })();
+</script>
+<script src="../add-ons/ads/ads.js"></script>
 </body>
 </html>
